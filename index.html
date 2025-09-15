@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Auto To-Do Extractor</title>
+	<link rel="stylesheet" href="styles.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+	<header class="app-header">
+		<h1>Automated To-Do List</h1>
+		<div class="header-actions">
+			<button id="btn-import" class="secondary">Import Text</button>
+			<button id="btn-settings" class="secondary">Settings</button>
+			<button id="btn-theme" class="secondary" title="Toggle theme">🌙</button>
+			<input id="file-input" type="file" accept=".txt,.md,.rtf" hidden />
+		</div>
+	</header>
+
+	<main class="container">
+		<section class="input-panel card">
+			<div class="input-toolbar">
+				<button id="btn-mic" title="Voice input">🎤</button>
+				<button id="btn-example" class="secondary" title="Load example">Example</button>
+				<div class="spacer"></div>
+				<label class="switch" title="Advanced extraction">
+					<input type="checkbox" id="toggle-advanced">
+					<span>Advanced</span>
+				</label>
+			</div>
+			<textarea id="source-text" placeholder="Paste an email or meeting notes here..." rows="10"></textarea>
+			<div class="actions">
+				<button id="btn-extract" class="primary">Extract Action Items</button>
+				<button id="btn-clear" class="secondary">Clear</button>
+			</div>
+		</section>
+
+		<section class="output-grid">
+			<div class="card" id="todos-card">
+				<div class="card-header">
+					<h2>To-Do Items</h2>
+					<div class="card-actions">
+						<button id="btn-save" class="secondary">Save</button>
+						<button id="btn-load" class="secondary">Load</button>
+					</div>
+				</div>
+				<div class="toolbar">
+					<select id="sort-by">
+						<option value="none">Sort: None</option>
+						<option value="due">Sort: Due Date</option>
+						<option value="priority">Sort: Priority</option>
+						<option value="assignee">Sort: Assignee</option>
+						<option value="confidence">Sort: Confidence</option>
+						<option value="created">Sort: Created</option>
+					</select>
+					<select id="filter-confidence">
+						<option value="0">Confidence ≥ 0%</option>
+						<option value="0.25">Confidence ≥ 25%</option>
+						<option value="0.5">Confidence ≥ 50%</option>
+						<option value="0.75">Confidence ≥ 75%</option>
+					</select>
+					<div class="spacer"></div>
+					<button id="btn-export-json" class="secondary">Export JSON</button>
+					<button id="btn-export-csv" class="secondary">Export CSV</button>
+					<button id="btn-export-ics" class="secondary">Export ICS</button>
+				</div>
+				<ul id="todo-list" class="todo-list"></ul>
+			</div>
+
+			<div class="card" id="overview-card">
+				<div class="card-header">
+					<h2>Assignee Overview</h2>
+				</div>
+				<div class="toolbar">
+					<label class="switch"><input type="checkbox" id="overview-pending-only"> <span>Pending only</span></label>
+					<select id="overview-mode">
+						<option value="progress">Progress</option>
+						<option value="priority">By priority</option>
+					</select>
+				</div>
+				<div id="assignee-overview" class="overview"></div>
+			</div>
+		</section>
+	</main>
+
+	<!-- Settings Modal -->
+	<div id="settings-modal" class="modal" hidden>
+		<div class="modal-backdrop"></div>
+		<div class="modal-dialog card">
+			<div class="card-header"><h2>Settings</h2><div class="card-actions"><button id="btn-close-settings" class="secondary">Close</button></div></div>
+			<div class="modal-body">
+				<label>
+					<span>Country for holiday checks (ISO-2, e.g., US, GB, IN)</span>
+					<input id="setting-country" type="text" placeholder="US" />
+				</label>
+			</div>
+			<div class="actions">
+				<button id="btn-save-settings" class="primary">Save Settings</button>
+			</div>
+		</div>
+	</div>
+
+	<footer class="app-footer">
+		<span>Local-first. Your data stays in your browser.</span>
+	</footer>
+
+	<script src="app.js"></script>
+</body>
+</html>
